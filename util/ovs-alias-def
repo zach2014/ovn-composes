@@ -1,0 +1,16 @@
+#!/bin/bash
+# specify the database in ovs/ovn command 
+#set -o xtrace
+
+if [ -z "$OVS_VSWITCH_IP" ]; then 
+    cat <<EOF
+    Warning: No enviroment variable: OVS_VSWITCH_IP, will use 127.0.0.1.
+    Ctrl-c to abort...
+EOF
+    sleep 30
+    OVS_VSWITCH_IP=127.0.0.1
+fi
+alias ovs-vsctl-r="ovs-vsctl --db=tcp:$OVS_VSWITCH_IP:6640 "
+alias ovn-nbctl-r="ovn-nbctl --db=tcp:$OVS_VSWITCH_IP:6641 "
+alias ovn-sbctl-r="ovn-sbctl --db=tcp:$OVS_VSWITCH_IP:6642 "
+alias ovn-trace-r="ovn-trace --db=tcp:$OVS_VSWITCH_IP:6642 "

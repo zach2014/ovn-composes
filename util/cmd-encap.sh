@@ -5,10 +5,15 @@
 #
 # Distributed under terms of the MIT license.
 #
-set -o xtrace
+#set -o xtrace
+
 if [ -z "$OVS_CENTRAL_IP" ] ; then 
-    >&2  echo "Error: No enviroment variable: OVS_CENTRAL_IP" 
-    exit 1
+    cat <<EOF
+    Warning: No enviroment variable: OVS_CENTRAL_IP, will use 127.0.0.1.
+    Ctrl-c to abort...
+EOF
+    sleep 30
+    OVS_CENTRAL_IP=127.0.0.1
 fi 
 
 ovs-vsctl-cmd() {
