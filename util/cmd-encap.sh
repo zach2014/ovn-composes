@@ -7,15 +7,8 @@
 #
 #set -o xtrace
 
-if [ -z "$OVS_CENTRAL_IP" ] ; then 
-    cat <<EOF
-    Warning: No enviroment variable: OVS_CENTRAL_IP, will use 127.0.0.1.
-    Ctrl-c to abort...
-EOF
-    sleep 30
-    OVS_CENTRAL_IP=127.0.0.1
-fi 
-
+. ../util/env-check.sh
+# encapsulate the ovs/ovn command with the specific database
 ovs-vsctl-cmd() {
     cmd_rs=$(ovs-vsctl --db=tcp:$OVS_CENTRAL_IP:6640 "$@") 
 }
