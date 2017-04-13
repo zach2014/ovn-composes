@@ -9,28 +9,28 @@
 
 if [ -z "$OVS_CENTRAL_IP" ] ; then 
     cat <<EOF
-    Warning: No enviroment variable: OVS_CENTRAL_IP, will use 127.0.0.1.
-    Ctrl-c to abort...
+Warning: No enviroment variable: OVS_CENTRAL_IP
+Ctrl-c to "export OVS_CENTRAL_IP=10.11.59.40", Or input it now: 
 EOF
-    sleep 30
-    OVS_CENTRAL_IP=127.0.0.1
+    sleep 10
+    read OVS_CENTRAL_IP
 fi 
 
 if [ -z "$OVS_HOST_IP" ] ; then 
     cat <<EOF
-    Warning: No enviroment variable: OVS_HOST_IP, will use 127.0.0.1.
-    Ctrl-c to abort...
+Warning: No enviroment variable: OVS_HOST_IP
+Ctrl-c to "export OVS_HOST_IP=10.11.59.x" Or input it now: 
 EOF
-    sleep 30
-    OVS_HOST_IP=127.0.0.1
+    sleep 10
+    read OVS_HOST_IP
 fi 
 
 if [ -z "$OF_MGMT_IP" ] ; then 
     cat <<EOF
-    Warning: No enviroment variable: OF_MGMT_IP, will use 10.11.59.179 
-    Ctrl-c to abort...
+Warning: No enviroment variable: OF_MGMT_IP
+Ctrl-c to "export OF_MGMT_IP=10.11.59.40", Or input it now: 
 EOF
-    sleep 30
-    OF_MGMT_IP=10.11.59.179
+    sleep 10
+    read OF_MGMT_IP
 fi 
 
