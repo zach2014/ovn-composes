@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 #
 # setup-ovs.sh
 # Copyright (C) 2017 zach <zacharyzjp@gmail.com>
@@ -16,7 +16,7 @@ case $1 in
 
     clean1)
         # clean
-        sudo ovs-vsctl set-controller br-int
+        sudo ovs-vsctl del-controller br-int
         sudo ovs-vsctl show
         sudo ovs-vsctl list open .
     ;;
@@ -31,9 +31,11 @@ case $1 in
         fi
         sudo ovs-vsctl add-br br-dut
         mappings="physnet1:br-dut"
-        old=`sudo ovs-vsctl get open .  external-ids:ovn-bridge-mappings`
-        old=`sed -e 's/^"//' -e 's/"$//' <<<$old`
-        [ -n "$old"] && mappings="$mappings,$old"
+        old=`sudo ovs-vsctl get open .  external-ids:ovn-bridge-mappings 2> /dev/null`
+        if [ -n "$old" ] ; then 
+            old=`sed -e 's/^"//' -e 's/"$//' <<<$old`
+            mappings="$mappings,$old"
+        fi
         sudo ovs-vsctl set open .  external-ids:ovn-bridge-mappings=$mappings
         sudo ovs-vsctl set-controller br-dut tcp:$OF_MGMT_IP:6653
 
@@ -60,9 +62,11 @@ case $1 in
         fi
         sudo ovs-vsctl add-br br-serv
         mappings="physnet2:br-serv"
-        old=`sudo ovs-vsctl get open .  external-ids:ovn-bridge-mappings`
-        old=`sed -e 's/^"//' -e 's/"$//' <<<$old`
-        [ -n "$old" ] && mappings=$mappings,$old
+        old=`sudo ovs-vsctl get open .  external-ids:ovn-bridge-mappings 2> /dev/null`
+	    if [ -n "$old" ] ; then 
+ 	        old=`sed -e 's/^"//' -e 's/"$//' <<<$old`
+	        mappings="$mappings,$old"
+	    fi
         sudo ovs-vsctl set open .  external-ids:ovn-bridge-mappings=$mappings
         sudo ovs-vsctl set-controller br-serv tcp:$OF_MGMT_IP:6653
         sudo ovs-vsctl show 
